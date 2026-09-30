@@ -12,7 +12,7 @@ public record ProductDto(
         @NotBlank(message = "el nombre no puede estar vacio")
         String name,
         @NotBlank
-        @Size(min=3, max= 10)
+        @Size(min=3, max= 10000000)
         String description,
         BigDecimal price,
         Integer stock) {

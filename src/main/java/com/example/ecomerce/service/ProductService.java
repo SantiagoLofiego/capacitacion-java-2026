@@ -3,13 +3,21 @@ package com.example.ecomerce.service;
 import com.example.ecomerce.dto.ProductDto;
 import com.example.ecomerce.exception.ProductIdNullException;
 import com.example.ecomerce.model.Product;
+import com.example.ecomerce.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductService implements ProductServiceI {
+
+    ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
 
     private List<Product> productos=new ArrayList<>();
 
@@ -29,24 +37,28 @@ public class ProductService {
             //throw new ProductIdNullException("el id no puede ser null");
         }
         System.out.println("Sigue el flujo de ejecucion");
-        for (Product p : productos) {
+        /*for (Product p : productos) {
             if (p.getId().equals(id)) {
                 return getProductoDto(p);
             }
-        }
-        return null;
+        }*/
+
+
+        return getProductoDto(repository.findById(id).get());
     }
 
     public ProductDto create(ProductDto dto) {
         Product product = new Product();
-        product.setId(id);
+        //product.setId(id);
         product.setName(dto.name());
         product.setDescription(dto.description());
         product.setPrice(dto.price());
         product.setStock(dto.stock());
-        productos.add(product);
-        id++;
-        return getProductoDto(product);
+        //productos.add(product);
+        //id++;
+        ;
+
+        return getProductoDto(repository.save(product));
     }
 
     private ProductDto getProductoDto(Product producto) {

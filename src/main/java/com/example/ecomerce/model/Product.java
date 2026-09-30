@@ -1,10 +1,16 @@
 package com.example.ecomerce.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
+
 @Entity
+@Table(name = "productos")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name="nombre", nullable = false )
     private String name;
     private String description;
     private BigDecimal price;

@@ -4,6 +4,7 @@ import com.example.ecomerce.dto.ProductDto;
 import com.example.ecomerce.exception.ProductIdNullException;
 import com.example.ecomerce.service.DtoValidator;
 import com.example.ecomerce.service.ProductService;
+import com.example.ecomerce.service.ProductServiceI;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,10 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
-    private ProductService productService;
+    private ProductServiceI productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductServiceI productService) {
         this.productService = productService;
 
     }
@@ -30,7 +31,7 @@ public class ProductController {
     public ResponseEntity<?> getById(@PathVariable Long id) {
         ProductDto resultado= null;
         try {
-            resultado = productService.getById(null);
+            resultado = productService.getById(id);
         }catch(NullPointerException e){
             return new ResponseEntity<>("Capture NullPointerException",HttpStatus.OK);
         }catch(ProductIdNullException e){
@@ -53,8 +54,8 @@ public class ProductController {
             @RequestBody
             ProductDto dto
     ) {
-        ProductDto response = productService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        ProductDto body = productService.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(body);
     }
 
     @GetMapping
