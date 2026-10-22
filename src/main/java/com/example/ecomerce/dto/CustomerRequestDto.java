@@ -18,6 +18,8 @@ public class CustomerRequestDto {
     @Size(min=8)
     private String phone;
 
+    private AddressDto address;
+
     public String getFirstName() {
         return firstName;
     }
@@ -48,5 +50,12 @@ public class CustomerRequestDto {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public AddressDto getAddress() {
+        return address;
+    }
+    public void setAddress(AddressDto addressDto) {
+        this.address = addressDto;
     }
 }
